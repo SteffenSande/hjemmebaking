@@ -1,30 +1,24 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import * as express from 'express';
-import 'firebase/firestore';
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import * as express from "express";
+import * as cors from "cors';
 
-//initialize firebase inorder to access its services
 admin.initializeApp();
-
 const db = admin.firestore();
-
+const app = express();
 const oppskriftCollection = db.collection("oppkrifter");
 
-//initialize express server
-const app = express();
-const main = express();
+app.use(cors({ origin: "*" }));
 
-app.get("/", async (req, res) => {
-  res.send("ok");
-});
+app.get("/api/helloworld", async (req, res) => {
+    res.json({msg: "Hello world!"})
+    return;
+})
 
-app.get("/oppskrifter", async (req, res) => {
-  console.log("Treffer dette endepunktet.")
+app.get("/api/oppskrifter", async (req, res) => {
   const oppskrifterSnapshot = await oppskriftCollection.get();
   res.send(oppskrifterSnapshot.docs.map((oppskrift:any) => oppskrift.data()));
-});
+  return;
+})
 
-main.use('/api/v1', app);
-
-const api = functions.https.onRequest(main);
-export { api };
+exports.api = functions.https.onRequest(app);
