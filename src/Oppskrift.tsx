@@ -1,6 +1,6 @@
 import React from "react";
 
-const Oppskrifter: React.FC = () => {
+const Oppskrift: React.FC = () => {
   return (
     <div>
       <h1>Karamell Coockies</h1>
@@ -39,4 +39,4 @@ const Oppskrifter: React.FC = () => {
   );
 };
 
-export default Oppskrifter;
+export default Oppskrift;
